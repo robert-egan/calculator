@@ -55,6 +55,7 @@ public class Calculator{
 	
 	public void divideNumbers(float m, float n) {
 		if(n==0) {
+			//Checks for 0 in the denominator
 			System.out.println("Zero division error");
 		}
 		else {
@@ -64,8 +65,34 @@ public class Calculator{
 	}
 	
 	public void squareRootNumber(double x) {
-		result2 = (float) Math.sqrt(x);
-		System.out.println("The square root of " + this.x + " is " + this.result2);
+		//result2 = (float) Math.sqrt(x);
+		float check = (float)Math.sqrt(x);
+		float root = 1 ,inc = 1;
+		if(x==0 || x==1) {
+			result2=(float) x;
+		}
+		else {
+			while(inc>.00002) {
+				//this loop controls the decimal place that the next loop is on
+				while(root*root<=x) {
+					//this loop incrementally searches for the square root
+					//and stops once it has gone 1 too far
+					root += inc;
+				}
+				root -= inc;
+				inc = inc/10;
+				//decimal place of the incrementer moves 1 to the right
+				if(root*root==x) {
+					//catches perfect squares
+					result2 = root;
+					break;
+				}
+			}
+			result2=root;
+		}
+		System.out.println("The square root of " + this.x + " is approximately " + this.result2);
+		//System.out.println(check);
+		//For testing the result against the Math utility
 	}
 	
 	public void numberToPower(int x, int y) {
@@ -77,12 +104,14 @@ public class Calculator{
 		else if (y>=1) {
 			int num = 1;
 			for (int power = 1; power <= y; power++) {
+				//multiplies num by x, y number of times
 				num *= x;
 			}
 			result = num;
 			System.out.println(this.x + " to the power of " + this.y + " is " + this.result);
 		}
 		else if (y<0) {
+			//for negative powers does the same thing but takes the inverse
 			int num = 1;
 			for (int power = 1; power <= (y * -1); power++) {
 				num *= x;
@@ -95,6 +124,7 @@ public class Calculator{
 	public void getAbValue(float m) {
 		//result = Math.abs(x);
 		if (m<0) {
+			//if the number is negative, its multiplied by -1 to become positive
 			result2 = m * -1;
 		}
 		else {
@@ -113,6 +143,8 @@ public class Calculator{
 		else {
 			int factorial = 1;
 			for (int factor = 2; factor <= x; factor++) {
+				//multiplies the factorial variable by factor until factor
+				//is equal to x
 				factorial *= factor;
 			}	
 			result = factorial;
