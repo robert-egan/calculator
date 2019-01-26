@@ -3,37 +3,34 @@ import java.lang.Math;
 
 public class Calculator{
 	
-	int x, y, result, choice;
-	float m, n, result2; 
+	int x, y, result, choice, num;
+	float m, n, result2;
+	boolean run = true;
+	
 
-	public void getTwoNum() {
-		System.out.println("Enter the first number: ");
-		Scanner scanX = new Scanner(System.in);
-		this.x = scanX.nextInt();
-		System.out.println("Enter the second number: ");
-		Scanner scanY = new Scanner(System.in);
-		this.y = scanY.nextInt();
-	}
-	
-	public void getOneNum() {
-		System.out.println("Enter the number: ");
-		Scanner scan1 = new Scanner(System.in);
-		this.x = scan1.nextInt();
-	}
-	
-	public void getOneFloat() {
-		System.out.println("Enter the floating point number: ");
-		Scanner scan2 = new Scanner(System.in);
-		this.m = scan2.nextFloat();
-	}
-	
-	public void getTwoFloat() {
-		System.out.println("Enter the first number: ");
-		Scanner scanM = new Scanner(System.in);
-		this.m = scanM.nextFloat();
-		System.out.println("Enter the second number: ");
-		Scanner scanN = new Scanner(System.in);
-		this.n = scanN.nextFloat();
+	public void getNum(int num) {
+		Scanner scanA = new Scanner(System.in);
+		Scanner scanB = new Scanner(System.in);
+		switch(num) {
+			case 1:	System.out.println("Enter the number: ");
+					this.x = scanA.nextInt();
+					break;
+			case 2: System.out.println("Enter the first number: ");
+					this.x = scanA.nextInt();
+					System.out.println("Enter the second number: ");
+					this.y = scanB.nextInt();
+					break;
+			case 3: System.out.println("Enter the floating point number: ");
+					this.m = scanA.nextFloat();
+					break;
+			case 4: System.out.println("Enter the first number: ");
+					this.m = scanA.nextFloat();
+					System.out.println("Enter the second number: ");
+					this.n = scanB.nextFloat();
+					break;
+		}
+		//scanA.close();
+		//scanB.close();
 	}
 	
 	public void addNumbers(int x, int y){
@@ -44,8 +41,7 @@ public class Calculator{
 	
 	public void subtractNumbers(int x, int y){
 		result = x - y; 
-		System.out.println("The difference is " + this.result);
-		
+		System.out.println("The difference is " + this.result);	
 	}
 	
 	public void multiplyNumbers(int x, int y) {
@@ -66,14 +62,14 @@ public class Calculator{
 	
 	public void squareRootNumber(double x) {
 		//result2 = (float) Math.sqrt(x);
-		float check = (float)Math.sqrt(x);
+		//float check = (float)Math.sqrt(x);
 		float root = 1 ,inc = 1;
 		if(x==0 || x==1) {
 			result2=(float) x;
 		}
 		else {
 			while(inc>.00002) {
-				//this loop controls the decimal place that the next loop is on
+				//this loop controls the decimal place that the inner loop is on
 				while(root*root<=x) {
 					//this loop incrementally searches for the square root
 					//and stops once it has gone 1 too far
@@ -81,7 +77,7 @@ public class Calculator{
 				}
 				root -= inc;
 				inc = inc/10;
-				//decimal place of the incrementer moves 1 to the right
+				//decimal place of inc moves 1 to the right
 				if(root*root==x) {
 					//catches perfect squares
 					result2 = root;
@@ -154,6 +150,7 @@ public class Calculator{
 	
 	public void findFloor(float m) {
 		//result = (int) Math.floor(m);
+		//stores the values of the decimal in the float variable, then subtracts it off
 		float decimal = m % 1;
 		result = (int) (m - decimal);
 		System.out.println("The floor of " + this.m + " is " + this.result);
@@ -177,50 +174,61 @@ public class Calculator{
 		System.out.println("Enter 8 to get the factorial of a number.");
 		System.out.println("Enter 9 to find the floor of a number.");
 		System.out.println("Enter 10 to find the ceiling of a number.");
+		System.out.println("Enter 11 to exit calculator.");
 		Scanner scanC = new Scanner(System.in);
 		this.choice = scanC.nextInt();
+		//scanC.close();
 	}
 	public void chooseOperation() {
 		switch(this.choice) {
-			case 1: this.getTwoNum();
+			case 1: this.getNum(2);
 					this.addNumbers(this.x, this.y);
 					break;
-			case 2: this.getTwoNum();
+			case 2: this.getNum(2);
 					this.subtractNumbers(this.x, this.y);
 					break;
-			case 3: this.getTwoNum();
+			case 3: this.getNum(2);
 					this.multiplyNumbers(this.x, this.y);
 					break;
-			case 4: this.getTwoFloat();
+			case 4: this.getNum(4);
 					this.divideNumbers(this.m, this.n);
 					break;
-			case 5: this.getOneNum();
+			case 5: this.getNum(1);
 					this.squareRootNumber(this.x);
 					break;
-			case 6: this.getTwoNum();
+			case 6: this.getNum(2);
 					this.numberToPower(this.x, this.y);
 					break;
-			case 7: this.getOneFloat();
+			case 7: this.getNum(3);
 					this.getAbValue(this.m);
 					break;
-			case 8: this.getOneNum();
+			case 8: this.getNum(1);
 					this.getFactorial(this.x);
 					break;
-			case 9: this.getOneFloat();
+			case 9: this.getNum(3);
 					this.findFloor(this.m);
 					break;
-			case 10:this.getOneFloat();
+			case 10:this.getNum(3);
 					this.findCeiling(this.m);
+					break;
+			case 11:System.out.println("Calculator powering down.");
+					this.run = false;
 					break;
 		}
 		
 
 	}
+	public void runCalc() {
+		while(run==true) {
+			this.getChoice();
+			this.chooseOperation();
+		}
+	}
 
 	public static void main(String[] args) {
 		Calculator myCalc = new Calculator();
-		myCalc.getChoice();
-		myCalc.chooseOperation();
+		myCalc.runCalc();
+			
 	}
 	
 }
